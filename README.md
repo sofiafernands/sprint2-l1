@@ -1,82 +1,17 @@
-# Feature de transferencias bancarias
+# El problema
 
-## Descripción
+Crear un blog con la maqueta proporcionada.
 
-Este proyecto es una aplicación web para realizar transferencias bancarias entre cuentas. Se proporciona una interfaz gráfica para realizar las transferencias, y una API REST para realizar las operaciones.
+## Descripción del problema
 
-### Requisitos
+Se debe crear un blog con la maqueta proporcionada, el cual debe tener las siguientes características:
 
-- NodeJS v18.17.1
+- Se debe hacer un `fetch` usando las url `posts` que se encuentra en el objeto `urls` en el archivo `constant.js` en `assets/js/constant.js` y mostrar los posts en la maqueta.
 
-### Pasos
+- Crear una utilidad para mostrar la cantidad de segundos, minutos, horas, días, semanas, meses o años que han pasado desde la fecha de creación del post y formatear los posts del listado2.
 
-1. Ejecutar `npm start` en la carpeta raíz del proyecto
+- Al hacer click en el enlace de cada post, se debe mostrar el detalle del post y ocultar el listado de posts. Para mostrar el detalle del post, se debe hacer un `fetch` usando el `id` del post para obtener la url correspondiente en el objeto `urls` encontrado en `constant.js`.
 
-## Api REST
+- Al hacer click en el botón atras con el icono `<-`, se debe ocultar el detalle del post y mostrar el listado de posts.
 
-La ruta base de la API es http://localhost:3000
-
-### Endpoints
-
-- <strong>GET /transactions</strong>
-  - Descripción: Obtiene todas las transacciones registradas en el sistema.
-  - Respuesta: 200 OK
-  - Cuerpo: Array de transacciones. Ejemplo:
-  ```json
-  [
-    {
-      "from": "ES012345678954320987",
-      "to": "ES987654321009684593",
-      "amount": 240,
-      "currency": "EUR",
-      "date": "2023-09-03T15:14:30.762Z",
-      "id": 1
-    },
-    {
-      "from": "ES012345678954320987",
-      "to": "ES987654321009684593",
-      "amount": 99,
-      "currency": "EUR",
-      "date": "2023-09-03T15:18:17.009Z",
-      "id": 2
-    }
-  ]
-  ```
-- <strong>GET /accounts</strong>
-
-  - Descripción: Obtiene todas las cuentas bancarias registradas en el sistema.
-  - Respuesta: 200 OK
-  - Cuerpo: Array de cuentas bancarias. Ejemplo:
-
-  ```json
-  [
-    {
-      "accountNumber": "ES012345678954320987",
-      "accountType": "checking",
-      "balance": 3000,
-      "currency": "EUR",
-      "status": "active"
-    },
-    {
-      "accountNumber": "ES987654321009684593",
-      "accountType": "savings",
-      "balance": 5000,
-      "currency": "EUR",
-      "status": "active"
-    }
-  ]
-  ```
-
-- <strong>POST /transfer</strong>
-  - Descripción: Realiza una transferencia entre cuentas bancarias.
-  - Header: Content-Type: application/json
-  - Mode: no-cors (para evitar problemas de CORS)
-  - Cuerpo: Objeto con los datos de la transferencia. Ejemplo:
-  ```json
-  {
-    "from": "ES012345678954320987",
-    "to": "ES987654321009684593",
-    "amount": 200,
-    "currency": "EUR"
-  }
-  ```
+- Mostrar / Ocultar el `loader` cuando se haga un `fetch` de los posts y del detalle del post.
