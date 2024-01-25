@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+		integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+	<link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+
+<body>
+	<div class="app">
+		<header class="app-header">
+			<div class="app-header-logo">
+				<div class="logo">
+					<span class="logo-icon">
+						<img src="./assets/img/mi-banco.svg" />
+					</span>
+					<h1 class="logo-title">
+						<span>Mi</span>
+						<span>Banco</span>
+					</h1>
+				</div>
+			</div>
+			<div class="app-header-navigation">
+				<div class="tabs">
+					<a href="#">
+						Transferencias
+					</a>
+				</div>
+			</div>
+		</header>
+		<div class="app-body">
+			<div class="app-body-navigation">
+				<nav class="navigation">
+					<a href="#">
+						<i class="ph-browsers"></i>
+						<span>Transferencias</span>
+					</a>
+				</nav>
+				<footer class="footer">
+					<h1>Mi banco<small>©</small></h1>
+					<div>
+						Mi banco ©<br />
+						Todos los derechos reservados
+					</div>
+				</footer>
+			</div>
+			<div class="app-body-main-content">
+				<section class="service-section">
+					<h2>Transferencias</h2>
+					<div class="service-section-header">
+						<input id="amount" type="text" placeholder="Cantidad" />
+						<div class="dropdown-field">
+							<select name="from" data-id="dropdown-field-from">
+							</select>
+							<i class="ph-caret-down"></i>
+						</div>
+						<i class="fa fa-caret-right fa-2x"></i>
+						<div class="dropdown-field">
+							<select name="to" data-id="dropdown-field-to">
+							</select>
+							<i class="ph-caret-down"></i>
+						</div>
+						<button id="transfer-button" class="flat-button">
+							Ejecutar
+						</button>
+					</div>
+					<ul class="tiles">
+						<li class="tile">
+							<header class="tile-header">
+								<i class="fas fa-piggy-bank"></i>
+								<h3>
+									<span>600,00 €</span>
+									<span>ES8937198237198273198</span>
+								</h3>
+							</header>
+							<span>Cta. Ahorro</span>
+						</li>
+					</ul>
+				</section>
+			</div>
+			<div class="app-body-sidebar">
+				<section class="transfer-section">
+					<div class="transfer-section-header">
+						<h2>Ultimas transferencias</h2>
+					</div>
+					<ul class="transfers">
+						<li class="transfer">
+							<section class="transfer-details">
+								<header class="transfer-details-header">
+									<h4>De: </h4>
+									<h4>A: </h4>
+								</header>
+								<footer class="transfer-details-footer">
+									<div class="transfer-number">
+									</div>
+								</footer>
+							</section>
+						</li>
+					</ul>
+				</section>
+			</div>
+		</div>
+	</div>
+	<div class="spinner hidden">
+		<span class="logo-icon">
+			<img src="./assets/img/mi-banco.svg" />
+		</span>
+	</div>
+</body>
+
+</html>

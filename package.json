@@ -1,0 +1,8 @@
+{
+  "name": "javascript-avanzado-1",
+  "description": "Curso de JavaScript Avanzado 1",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node ./server/app.js"
+  }
+}
