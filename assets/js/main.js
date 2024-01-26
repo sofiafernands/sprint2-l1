@@ -18,24 +18,27 @@ async function fetchPosts() {
     showLoader();
     const response = await fetch(urls.post);
     const data = await response.json();
+    const posts = data.posts;
     hideLoader();
-    if (!Array.isArray(data)) {
-      console.error('Data is not an array:', data);
-      return [];
+    if (!Array.isArray(posts)) {
+      throw new Error('Data is not an array');
     }
-    return data;
+    return posts;
   } catch (error) {
     console.error('Error fetching posts:', error);
-    return [];
   }
 }
 
 async function fetchPostDetail(id) {
-  showLoader();
-  const response = await fetch(urls[id]);
-  const postDetail = await response.json();
-  hideLoader();
-  return postDetail;
+  try {
+    showLoader();
+    const response = await fetch(`${urls.posts}/${id}`);
+    const postDetail = await response.json();
+    hideLoader();
+    return postDetail;
+  } catch (error) {
+    console.error('Error fetching post detail:', error);
+  }
 }
 
 function createPostElement(post) {
@@ -78,35 +81,26 @@ function showPostDetail(postDetail) {
 }
 
 function tiempoTranscurrido(fechaCreacion) {
-    const ahora = new Date();
-    const fechaPost = new Date(fechaCreacion);
-    const segundos = Math.floor((ahora - fechaPost) / 1000);
+  const ahora = new Date();
+  const fechaPost = new Date(fechaCreacion);
+  const segundos = Math.floor((ahora - fechaPost) / 1000);
 
-    let intervalo = Math.floor(segundos / 31536000);
-    if (intervalo > 1) {
-        return intervalo + " años";
+  const intervalos = [
+    { nombre: 'año', segundos: 31536000 },
+    { nombre: 'mes', segundos: 2592000 },
+    { nombre: 'semana', segundos: 604800 },
+    { nombre: 'día', segundos: 86400 },
+    { nombre: 'hora', segundos: 3600 },
+    { nombre: 'minuto', segundos: 60 },
+    { nombre: 'segundo', segundos: 1 },
+  ];
+
+  for (let i = 0; i < intervalos.length; i++) {
+    const intervalo = Math.floor(segundos / intervalos[i].segundos);
+    if (intervalo >= 1) {
+      return `${intervalo} ${intervalos[i].nombre}${intervalo > 1 ? 's' : ''}`;
     }
-    intervalo = Math.floor(segundos / 2592000);
-    if (intervalo > 1) {
-        return intervalo + " meses";
-    }
-    intervalo = Math.floor(segundos / 604800);
-    if (intervalo > 1) {
-        return intervalo + " semanas";
-    }
-    intervalo = Math.floor(segundos / 86400);
-    if (intervalo > 1) {
-        return intervalo + " días";
-    }
-    intervalo = Math.floor(segundos / 3600);
-    if (intervalo > 1) {
-        return intervalo + " horas";
-    }
-    intervalo = Math.floor(segundos / 60);
-    if (intervalo > 1) {
-        return intervalo + " minutos";
-    }
-    return Math.floor(segundos) + " segundos";
+  }
 }
 
 backButton.addEventListener('click', async () => {
