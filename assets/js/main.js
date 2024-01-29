@@ -17,6 +17,7 @@ async function fetchPosts() {
   try {
     showLoader();
     const response = await fetch(urls.post);
+    if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
     const posts = data.posts;
     hideLoader();
@@ -25,6 +26,7 @@ async function fetchPosts() {
     }
     return posts;
   } catch (error) {
+    hideLoader();
     console.error('Error fetching posts:', error);
   }
 }
@@ -32,11 +34,13 @@ async function fetchPosts() {
 async function fetchPostDetail(id) {
   try {
     showLoader();
-    const response = await fetch(`${urls.posts}/${id}`);
+    const response = await fetch(urls[id]); // Utiliza la clave específica para cada publicación
+    if (!response.ok) throw new Error('Network response was not ok');
     const postDetail = await response.json();
     hideLoader();
     return postDetail;
   } catch (error) {
+    hideLoader();
     console.error('Error fetching post detail:', error);
   }
 }
@@ -56,11 +60,16 @@ function createPostElement(post) {
     </a>
   `;
   postElement.querySelector('.post-link').addEventListener('click', async () => {
-    const postDetail = await fetchPostDetail(post.id);
-    showPostDetail(postDetail);
+    try {
+      const postDetail = await fetchPostDetail(post.id);
+      showPostDetail(postDetail);
+    } catch (error) {
+      console.error('Error fetching post detail:', error);
+    }
   });
   return postElement;
 }
+
 
 function showPosts(posts) {
   postsSection.innerHTML = '';
@@ -80,10 +89,11 @@ function showPostDetail(postDetail) {
   detailSection.classList.remove('hidden');
 }
 
+//funcion para calcular el tiempo transcurrido desde la creacion del post
 function tiempoTranscurrido(fechaCreacion) {
   const ahora = new Date();
   const fechaPost = new Date(fechaCreacion);
-  const segundos = Math.floor((ahora - fechaPost) / 1000);
+  const segundosTranscurridos = Math.floor((ahora - fechaPost) / 1000);
 
   const intervalos = [
     { nombre: 'año', segundos: 31536000 },
@@ -96,13 +106,16 @@ function tiempoTranscurrido(fechaCreacion) {
   ];
 
   for (let i = 0; i < intervalos.length; i++) {
-    const intervalo = Math.floor(segundos / intervalos[i].segundos);
+    const intervalo = Math.floor(segundosTranscurridos / intervalos[i].segundos);
     if (intervalo >= 1) {
-      return `${intervalo} ${intervalos[i].nombre}${intervalo > 1 ? 's' : ''}`;
+      return `${intervalo} ${intervalos[i].nombre}${intervalo > 1 ? 's' : ''} atrás`;
     }
   }
+
+  return 'Recién creado'; // Si no ha pasado ni un segundo
 }
 
+///evento click para el boton de regresar a la lista de posts)
 backButton.addEventListener('click', async () => {
   try {
     const posts = await fetchPosts();
@@ -111,5 +124,7 @@ backButton.addEventListener('click', async () => {
     console.error('Error showing posts:', error);
   }
 });
-
-fetchPosts().then(showPosts);
+///llamado a la funcion fetchPosts
+fetchPosts().then(posts => {
+  if (posts) showPosts(posts);
+});
