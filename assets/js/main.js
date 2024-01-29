@@ -5,6 +5,7 @@ const detailSection = document.querySelector('.detail-post');
 const backButton = document.querySelector('.back-button');
 const loader = document.querySelector('.loader-container');
 
+//showLoader y hideLoader son funciones para mostrar y ocultar el loader
 function showLoader() {
   loader.classList.remove('hidden');
 }
@@ -12,7 +13,7 @@ function showLoader() {
 function hideLoader() {
   loader.classList.add('hidden');
 }
-
+//funcion asincorina para hacer el fetch de los posts(metodo get por default), si la respuesta es exitosa, se convierte la respuesta en JSON.
 async function fetchPosts() {
   try {
     showLoader();
@@ -30,11 +31,11 @@ async function fetchPosts() {
     console.error('Error fetching posts:', error);
   }
 }
-
+//obtiene el detalle de cada post, se utiliza la clave específica para cada publicación(en este caso se utiliza el id)
 async function fetchPostDetail(id) {
   try {
     showLoader();
-    const response = await fetch(urls[id]); // Utiliza la clave específica para cada publicación
+    const response = await fetch(urls[id]); // Utiliza la clave específica para cada publicacion(id del post)
     if (!response.ok) throw new Error('Network response was not ok');
     const postDetail = await response.json();
     hideLoader();
@@ -44,7 +45,8 @@ async function fetchPostDetail(id) {
     console.error('Error fetching post detail:', error);
   }
 }
-
+//crea el elemento HTML para cada post, crea un elemento post en el DOM utilizando los datos de un post. 
+//esta funcion tambien agrega un evento click al elemento post, para mostrar el detalle del post.(line 64)
 function createPostElement(post) {
   const postElement = document.createElement('article');
   postElement.classList.add('post');
@@ -55,7 +57,8 @@ function createPostElement(post) {
       </header>
       <footer class="post-footer">
         <p class="post-content">${post.content}</p>
-        <p class="post-date">${tiempoTranscurrido(post.date)}</p>
+        <p class="post-date">${timeElapsed(post.date)}</p>
+
       </footer>
     </a>
   `;
@@ -69,7 +72,9 @@ function createPostElement(post) {
   });
   return postElement;
 }
-
+//Esta función toma una lista de posts, limpia la sección de posts, crea un nuevo 
+//elemento de post para cada post en la lista utilizando createPostElement y lo agrega a la sección de posts.
+// Luego muestra la sección de posts y oculta la sección de detalles.
 function showPosts(posts) {
   postsSection.innerHTML = '';
   posts.forEach(post => {
@@ -79,7 +84,7 @@ function showPosts(posts) {
   postsSection.classList.remove('hidden');
   detailSection.classList.add('hidden');
 }
-
+// Esta función toma un post y lo muestra en la sección de detalles.
 function showPostDetail(postDetail) {
   detailSection.querySelector('.detail-post-header h2').textContent = postDetail.title;
   detailSection.querySelector('.detail-post-content').textContent = postDetail.content;
@@ -89,13 +94,13 @@ function showPostDetail(postDetail) {
 }
 
 //funcion para calcular el tiempo transcurrido desde la creacion del post
-function tiempoTranscurrido(fechaCreacion) {
-  const ahora = new Date();
+function timeElapsed(fechaCreacion) {
+  const now = new Date();
   const fechaPost = new Date(fechaCreacion);
-  let segundosTranscurridos = Math.floor((ahora - fechaPost) / 1000);
+  let segundosTranscurridos = Math.floor((now - fechaPost) / 1000);
 
   const intervalos = [
-    { nombre: 'mes', segundos: 2592000 },
+    { nombre: 'mese', segundos: 2592000 },
     { nombre: 'día', segundos: 86400 },
   ];
 
