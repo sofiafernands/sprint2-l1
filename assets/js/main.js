@@ -92,28 +92,25 @@ function showPostDetail(postDetail) {
 function tiempoTranscurrido(fechaCreacion) {
   const ahora = new Date();
   const fechaPost = new Date(fechaCreacion);
-  const segundosTranscurridos = Math.floor((ahora - fechaPost) / 1000);
+  let segundosTranscurridos = Math.floor((ahora - fechaPost) / 1000);
 
   const intervalos = [
-    { nombre: 'año', segundos: 31536000 },
     { nombre: 'mes', segundos: 2592000 },
-    { nombre: 'semana', segundos: 604800 },
     { nombre: 'día', segundos: 86400 },
-    { nombre: 'hora', segundos: 3600 },
-    { nombre: 'minuto', segundos: 60 },
-    { nombre: 'segundo', segundos: 1 },
   ];
+
+  let resultado = '';
 
   for (let i = 0; i < intervalos.length; i++) {
     const intervalo = Math.floor(segundosTranscurridos / intervalos[i].segundos);
     if (intervalo >= 1) {
-      return `${intervalo} ${intervalos[i].nombre}${intervalo > 1 ? 's' : ''} atrás`;
+      resultado += `${intervalo} ${intervalos[i].nombre}${intervalo > 1 ? 's' : ''} `;
+      segundosTranscurridos -= intervalo * intervalos[i].segundos;
     }
   }
 
-  return 'Recién creado'; // Si no ha pasado ni un segundo
+  return resultado ? `${resultado}atrás` : 'Recién creado';
 }
-
 ///evento click para el boton de regresar a la lista de posts)
 backButton.addEventListener('click', async () => {
   try {
