@@ -70,7 +70,6 @@ function createPostElement(post) {
   return postElement;
 }
 
-
 function showPosts(posts) {
   postsSection.innerHTML = '';
   posts.forEach(post => {
